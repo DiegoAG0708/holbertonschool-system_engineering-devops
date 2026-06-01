@@ -1,0 +1,22 @@
+0. Simple web stack
+
+A user types www.foobar.com in their browser. The browser asks the DNS system to resolve www.foobar.com into an IP address. The DNS record for www.foobar.com is configured to point to 8.8.8.8. The request is then sent to the server at 8.8.8.8.
+
+The server hosts:
+- A web server (Nginx) that receives HTTP requests and serves static content or forwards dynamic requests to the application server.
+- An application server that runs the business logic using the application files (the codebase).
+- A database (MySQL) that stores and organizes information for easy access, update, and management.
+
+Specifics:
+- A server is a physical or virtual machine that provides functionality to clients.
+- The domain name foobar.com makes the site human-readable instead of using raw IP addresses.
+- The "www" in www.foobar.com is a DNS record (commonly an A record or CNAME) pointing to the server IP.
+- The web server’s role is to handle HTTP requests and serve content.
+- The application server’s role is to execute the application code and generate dynamic responses.
+- The database’s role is to store and manage persistent data.
+- The server communicates with the user’s computer using TCP/IP over HTTP/HTTPS.
+
+Issues with this infrastructure:
+- SPOF (Single Point of Failure): if the server goes down, the entire site is unavailable.
+- Downtime: maintenance or code deployment requires restarting services, causing temporary outages.
+- Scalability: one server cannot handle heavy traffic; performance degrades under load.
