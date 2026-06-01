@@ -1,0 +1,19 @@
+1. Distributed web infrastructure
+
+A user types www.foobar.com in their browser. The DNS system resolves www.foobar.com into the IP address 8.8.8.8. The request is sent to the load balancer (HAproxy) at 8.8.8.8.
+
+The load balancer distributes incoming traffic between two servers. Each server hosts:
+- A web server (Nginx) that receives HTTP requests.
+- An application server that runs the business logic using the application files (the codebase).
+- A database (MySQL) that stores and organizes information.
+
+Specifics:
+- The load balancer is added to prevent a single point of failure and to distribute traffic. It uses a round‑robin algorithm, which forwards each new request to the next server in sequence.
+- This setup is Active‑Active: both servers handle traffic simultaneously. In contrast, Active‑Passive means one server is idle until the other fails.
+- A database Primary‑Replica (Master‑Slave) cluster works by having one Primary node that handles all writes, and Replica nodes that copy data from the Primary and handle read requests.
+- The Primary node is responsible for updates and inserts, while Replica nodes provide read‑only access to improve performance and redundancy.
+
+Issues with this infrastructure:
+- SPOF: The load balancer itself is a single point of failure.
+- Security issues: No firewall and no HTTPS, leaving the system vulnerable.
+- No monitoring: Failures or performance problems may go undetected.
