@@ -1,0 +1,24 @@
+2. Secured and monitored web infrastructure
+
+A user types www.foobar.com in their browser. The DNS system resolves www.foobar.com into the IP address 8.8.8.8. The request is sent to the load balancer (HAproxy), which distributes traffic between two servers. Each server hosts:
+- A web server (Nginx)
+- An application server
+- Application files (the codebase)
+- A database (MySQL)
+
+Additional elements:
+- Firewalls: Three firewalls are added (one around each server and one around the load balancer) to filter incoming and outgoing traffic, blocking unauthorized access.
+- SSL certificate: Added to serve traffic over HTTPS, ensuring encryption and protecting user data from interception.
+- Monitoring clients: Three monitoring agents collect metrics (CPU, memory, QPS, errors) and send them to a monitoring service such as Sumologic.
+
+Specifics:
+- Firewalls are used to secure the infrastructure by controlling traffic and preventing malicious connections.
+- Traffic is served over HTTPS to encrypt communication between the user and the server, ensuring confidentiality and integrity.
+- Monitoring is used to track performance, detect failures, and alert administrators.
+- Monitoring tools collect data by running agents on each server that send logs and metrics to a central service.
+- To monitor web server QPS (queries per second), configure the monitoring client to track Nginx access logs and aggregate request counts.
+
+Issues with this infrastructure:
+- Terminating SSL at the load balancer level is an issue because traffic between the load balancer and servers is unencrypted, exposing internal communication.
+- Having only one MySQL server capable of accepting writes is an issue because it creates a bottleneck and a single point of failure for data writes.
+- Having servers with all the same components (database, web server, application server) might be a problem because it mixes responsibilities, complicates scaling and maintenance.
