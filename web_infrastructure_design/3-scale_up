@@ -1,0 +1,25 @@
+3. Scale up
+
+A user types www.foobar.com in their browser. The DNS system resolves www.foobar.com into the IP address 8.8.8.8. The request is sent to the load balancer cluster (two HAproxy servers working together). The load balancer distributes traffic across multiple servers.
+
+Infrastructure:
+- One additional server is added to increase capacity and reduce the risk of a single point of failure.
+- The load balancer is configured as a cluster with another HAproxy, ensuring redundancy. If one load balancer fails, the other continues handling traffic.
+- Components are split into their own servers:
+  * Web server (Nginx) dedicated to handling HTTP requests and static content.
+  * Application server dedicated to executing business logic and running the codebase.
+  * Database server (MySQL) dedicated to storing and managing persistent data.
+
+Specifics:
+- Adding another server improves scalability and reliability.
+- Adding a clustered load balancer prevents the load balancer itself from being a single point of failure.
+- Splitting components into separate servers improves performance, security, and maintainability. Each server can be scaled independently depending on demand.
+
+Application server vs web server:
+- The web server (Nginx) handles HTTP requests, serves static files, and forwards dynamic requests.
+- The application server runs the application code, processes business logic, and generates dynamic responses.
+
+Issues with this infrastructure:
+- Even with clustering, databases can still be a bottleneck if only one node accepts writes.
+- Splitting components requires more complex configuration and monitoring.
+- Security and monitoring must still be added to ensure resilience.
